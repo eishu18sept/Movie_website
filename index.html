@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Movie Info</title>
+</head>
+
+<style>
+    .my-text{
+        color: white;
+    }
+
+    body{
+        background-color: black;
+    }
+    .result-bg{
+        background-color: white;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1 class="text-center p-2 mt-5 my-text" style="margin-bottom: 20px;">Movie Info App</h1>
+        <form autocomplete="off" id="movieForm">
+            <div class="form-group text-center container">
+                <label style="font-size:25px; margin-bottom: 20px;" class="my-text" for="movie">Search for your Favourite Movie</label>
+                <input class="form-control col-8 " style="margin-left: 170px;" type="text" placeholder="Enter Movie Name .... " id="movie">
+                <button class="btn btn-danger" style="margin-top: 20px;">Search Movie</button>
+            </div>
+        </form>
+        <div id="result">
+
+        </div>
+    </div>
+    
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+
+        $("#movieForm").submit(function(event){
+            event.preventDefault()
+
+            var movie_name = $("#movie").val()
+            var result = ""
+            var url = "http://www.omdbapi.com/?apikey=6d3696e1&t="  //enter your apikey here
+
+            $.ajax({
+                method:'GET',
+                url : url + movie_name,
+                success:function(data){
+                    console.log(data)
+
+                    result = `
+
+                    <div class="col-12 row result-bg">
+                        <div class="col-3 p-3 ">
+                            <img style="float:left;" class="img-thumbnail" src="${data.Poster}"/>
+                        </div>
+                        <div class="col-9 p-3 text-center">
+                            <h2>${data.Title}</h2>
+                            <h2>${data.Released}</h2>
+                            <h2>${data.Runtime}</h2>
+                            <h2>${data.Genre}</h2>
+                            <h2>${data.Director}</h2>
+                            <h2>${data.Actors}</h2>
+                        </div>
+                    </div>
+
+                    `
+                    $("#result").html(result)
+                }
+            })
+        })
+    })
+
+</script>
+
+</html>
+
